@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Tone, Structure, OutputLanguage, PromptOptions, OptimizedResult, HistoryItem } from './types';
+import { Tone, Structure, Lens, OutputLanguage, PromptOptions, OptimizedResult, HistoryItem } from './types';
 import { optimizePrompt, ImageInput } from './services/geminiService';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { ResultCard } from './components/ResultCard';
@@ -8,6 +8,57 @@ interface UploadedImage extends ImageInput {
   id: string;
   preview: string;
 }
+
+const CineXPressLogo = () => (
+  <div className="relative flex items-center justify-center w-72 h-20 select-none">
+    {/* Abstract Infinity Loops replicating the logo style */}
+    <svg className="absolute inset-0 w-full h-full overflow-visible pointer-events-none" viewBox="0 0 300 100">
+      <defs>
+        <linearGradient id="gradCyan" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style={{stopColor: '#22d3ee', stopOpacity: 0.8}} />
+          <stop offset="100%" style={{stopColor: '#06b6d4', stopOpacity: 0.2}} />
+        </linearGradient>
+      </defs>
+      
+      {/* Cyan Outer Loop */}
+      <path 
+        d="M150 50 C 90 50 40 10 40 50 C 40 90 90 50 150 50 C 210 50 260 90 260 50 C 260 10 210 50 150 50"
+        fill="none" 
+        stroke="#22d3ee" 
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        className="opacity-70 blur-[1px]"
+      />
+      
+       {/* Gold Middle Loop */}
+      <path 
+        d="M150 50 C 100 65 30 20 30 50 C 30 80 100 35 150 50 C 200 65 270 20 270 50 C 270 80 200 35 150 50"
+        fill="none" 
+        stroke="#b45309" 
+        strokeWidth="3"
+        strokeLinecap="round"
+        className="opacity-90"
+      />
+      
+      {/* Pink Inner Loop */}
+      <path 
+        d="M150 50 C 80 30 50 -10 50 50 C 50 110 80 70 150 50 C 220 30 250 -10 250 50 C 250 110 220 70 150 50"
+        fill="none" 
+        stroke="#f472b6" 
+        strokeWidth="3"
+        strokeLinecap="round"
+        className="opacity-80"
+      />
+    </svg>
+    
+    {/* Text Layer */}
+    <div className="relative z-10 flex items-center tracking-tight drop-shadow-lg">
+       <span className="text-3xl font-light text-amber-600 font-sans" style={{ letterSpacing: '-0.05em' }}>CINE</span>
+       <span className="text-6xl font-black text-pink-500 mx-[-4px] -mt-2 transform scale-x-110" style={{ fontFamily: 'Arial, sans-serif' }}>X</span>
+       <span className="text-3xl font-light text-amber-600 font-sans" style={{ letterSpacing: '-0.05em' }}>PRESS</span>
+    </div>
+  </div>
+);
 
 const App: React.FC = () => {
   // State for Input
@@ -18,6 +69,7 @@ const App: React.FC = () => {
   const [options, setOptions] = useState<PromptOptions>({
     tone: Tone.CINEMATIC,
     structure: Structure.VISUAL_PROMPT,
+    lens: Lens.STANDARD,
     language: OutputLanguage.ENGLISH, 
     includeExamples: false,
     addReasoning: false
@@ -139,25 +191,15 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-black text-gray-200 selection:bg-amber-500 selection:text-black font-sans">
       
       {/* Cinematic Header */}
-      <header className="border-b border-gray-800 bg-gray-950/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-red-600 rounded flex items-center justify-center shadow-lg shadow-amber-900/20 transform -rotate-3">
-              <svg className="w-7 h-7 text-black" fill="currentColor" viewBox="0 0 24 24">
-                 <path d="M19.376 12.416L8.777 5.482A.5.5 0 008 5.906v12.188a.5.5 0 00.777.424l10.599-6.934a.5.5 0 000-.842z" />
-              </svg>
-            </div>
-            <div>
-              <h1 className="text-2xl font-black text-white tracking-tight uppercase font-mono">
-                CineXprompt <span className="text-amber-500">IA</span>
-              </h1>
-              <p className="text-xs text-gray-400 font-medium tracking-widest uppercase">Visual Storytelling & Screenwriting</p>
-            </div>
+      <header className="border-b border-gray-800 bg-gray-950/90 backdrop-blur-md sticky top-0 z-50 shadow-lg shadow-black/50">
+        <div className="max-w-6xl mx-auto px-6 py-2 flex items-center justify-between">
+          <div className="flex items-center">
+            <CineXPressLogo />
           </div>
           
-          <div className="hidden sm:flex items-center gap-2 text-xs font-mono text-gray-500 border border-gray-800 px-3 py-1 rounded">
-             <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-             REC
+          <div className="hidden sm:flex items-center gap-3 text-xs font-mono text-gray-500 border border-gray-800 px-4 py-2 rounded-full bg-black/50">
+             <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse shadow-[0_0_8px_rgba(220,38,38,0.8)]"></div>
+             <span className="tracking-widest">LIVE SESSION</span>
           </div>
         </div>
       </header>
@@ -282,6 +324,25 @@ const App: React.FC = () => {
                   </div>
                 </div>
 
+                {/* Lens Selector (New) */}
+                <div className="space-y-2">
+                  <label className="text-xs text-gray-500 font-semibold uppercase">Lente / Óptica</label>
+                  <div className="relative">
+                    <select
+                      value={options.lens}
+                      onChange={(e) => setOptions({...options, lens: e.target.value as Lens})}
+                      className="w-full bg-gray-800 border border-gray-700 text-white p-3 rounded hover:border-amber-500 focus:border-amber-500 outline-none transition-colors cursor-pointer appearance-none"
+                    >
+                      {Object.values(Lens).map((l) => (
+                        <option key={l} value={l}>{l}</option>
+                      ))}
+                    </select>
+                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-400">
+                      <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Language Selector */}
                 <div className="space-y-2">
                   <label className="text-xs text-gray-500 font-semibold uppercase">Idioma</label>
@@ -302,7 +363,7 @@ const App: React.FC = () => {
                 </div>
                 
                 {/* Toggles */}
-                <div className="space-y-2 flex items-center pt-6">
+                <div className="space-y-2 flex items-center pt-6 md:col-span-2">
                      <label className="flex items-center gap-3 cursor-pointer group">
                         <div className="relative">
                             <input 

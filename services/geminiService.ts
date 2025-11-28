@@ -26,6 +26,7 @@ export const optimizePrompt = async (
     1. **Si es VISUAL_PROMPT (Para IA de Video/Imagen):**
        - Si el usuario proporciona IMÁGENES DE REFERENCIA: Analiza su estilo, iluminación, paleta de colores y composición. Incorpora estos elementos visuales explícitamente en el prompt de texto generado.
        - Debes especificar: Sujeto, Acción, Entorno, Iluminación (ej. Golden Hour, Neon, Chiaroscuro), Estilo de Cámara (ej. Anamorphic lens, Dolly zoom, 35mm film grain), Paleta de Colores y Referencias a Directores si aplica.
+       - **LENTE/ÓPTICA:** El usuario ha elegido explícitamente el lente: "${options.lens}". Asegúrate de describir cómo afecta esto a la imagen (profundidad de campo, distorsión, ángulo de visión).
        - El prompt debe ser denso, descriptivo y visualmente rico.
        - Si el idioma es Inglés, usa terminología técnica de cine en inglés (e.g., "Depth of field", "Bokeh", "Color Grading").
 
@@ -33,7 +34,13 @@ export const optimizePrompt = async (
        - Usa formato estricto de guion (Sluglines INT./EXT., Nombres de personajes en mayúsculas, Diálogos, Acotaciones).
        - Enfócate en "Show, Don't Tell".
 
-    3. **Si es LOGLINE/STORY:**
+    3. **Si es SYNOPSIS (Sinopsis):**
+       - Escribe un resumen narrativo completo de la historia estructurado claramente (Inicio, Desarrollo/Nudo y Desenlace).
+       - Usa tiempo PRESENTE y tercera persona.
+       - Céntrate en el arco del protagonista, los obstáculos principales y la resolución.
+       - No uses lenguaje de marketing (como "prepárate para ver..."), narra la historia objetivamente.
+
+    4. **Si es LOGLINE/STORY:**
        - Sigue estructuras narrativas probadas (Inciting Incident, Climax).
 
     REGLAS:
@@ -53,6 +60,7 @@ export const optimizePrompt = async (
     Configuración de Producción:
     - Estilo/Género: ${options.tone}
     - Formato de Salida: ${options.structure}
+    - Lente / Óptica: ${options.lens}
     - Idioma del Prompt: ${options.language}
     - Incluir Referencias Visuales (Few-Shot): ${options.includeExamples ? "Sí" : "No"}
     
